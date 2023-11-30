@@ -17,25 +17,28 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+
+
+    @GetMapping("/all-users")
     public String showAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "list";
     }
-
-    @GetMapping("/delete")
-    public String deleteUser(@RequestParam(value = "id") int id) {
-        userService.deleteUser(id);
-        return "redirect:/";
-    }
-
-    @GetMapping("/show")
-    public String show(@RequestParam(value = "id") int id, Model model) {
-        User user = userService.getUser(id);
-        model.addAttribute("user", user);
-        return "show";
-    }
-
+//
+//
+//    @GetMapping("/delete")
+//    public String deleteUser(@RequestParam(value = "id") int id) {
+//        userService.deleteUser(id);
+//        return "redirect:/";
+//    }
+//
+//    @GetMapping("/show")
+//    public String show(@RequestParam(value = "id") int id, Model model) {
+//        User user = userService.getUser(id);
+//        model.addAttribute("user", user);
+//        return "show";
+//    }
+//
     @GetMapping("/new")
     public String newUser(@ModelAttribute("user") User user) {
         return "new";
@@ -44,18 +47,18 @@ public class UserController {
     @PostMapping()
     public String addUser(@ModelAttribute("user") User user) {
         userService.addUser(user);
-        return "redirect:/";
+        return "list";
     }
-
-    @GetMapping("/edit")
-    public String editUser(@RequestParam(value = "id") int id, Model model) {
-        model.addAttribute("user", userService.getUser(id));
-        return "edit";
-    }
-
-    @PostMapping("/edit")
-    public String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "id") int id) {
-        userService.updateUser(id, user);
-        return "redirect:/";
-    }
+//
+//    @GetMapping("/edit")
+//    public String editUser(@RequestParam(value = "id") int id, Model model) {
+//        model.addAttribute("user", userService.getUser(id));
+//        return "edit";
+//    }
+//
+//    @PostMapping("/edit")
+//    public String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "id") int id) {
+//        userService.updateUser(id, user);
+//        return "redirect:/";
+//    }
 }

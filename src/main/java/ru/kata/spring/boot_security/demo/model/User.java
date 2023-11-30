@@ -1,12 +1,5 @@
 package ru.kata.spring.boot_security.demo.model;
 
-//import jakarta.persistence.Column;
-//import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
-//import jakarta.persistence.Id;
-//import jakarta.persistence.Table;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,13 +16,24 @@ public class User {
     private String name;
     @Column(name = "last_name")
     private String lastName;
-
+    @Column(name = "login")
     private String email;
+    private String password;
+    public String getPassword() {
+        return password;
+    }
 
-    public User(String name, String lastName, String email) {
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+
+    public User(String name, String lastName, String email, String password) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
     }
 
     public User() {
