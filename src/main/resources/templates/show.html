@@ -28,10 +28,14 @@
 <div>
     <table>
         <tr>
-            <td><a type="button" th:href="@{/edit(id=${user.getId()})}">Edit</a></td>
-            <td><a type="button" th:href="@{/delete(id=${user.getId()})}">Delete</a></td>
+            <td><a type="button" th:href="@{/admin/edit(id=${user.getId()})}">Edit</a></td>
+            <td><a type="button" th:href="@{/admin/delete(id=${user.getId()})}">Delete</a></td>
         </tr>
     </table>
 </div>
+<br/>
+<form th:action="@{'/logout'}">
+    <input type="submit" value="Logout"/>
+</form>
 </body>
 </html>

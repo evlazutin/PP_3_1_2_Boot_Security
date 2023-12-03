@@ -2,21 +2,43 @@ package ru.kata.spring.boot_security.demo.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final SuccessUserHandler successUserHandler;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
+    private final SuccessUserHandler successUserHandler;
+    private final UserDetailsService userDetailsService;
+
+    public WebSecurityConfig(SuccessUserHandler successUserHandler
+            , UserDetailsService userDetailsService) {
         this.successUserHandler = successUserHandler;
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(daoAuthenticationProvider());
+    }
+
+    @Bean
+    protected BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder(12);
+    }
+
+    @Bean
+    protected DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        return daoAuthenticationProvider;
     }
 
     @Override
@@ -24,27 +46,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/index").permitAll()
+                .antMatchers("/", "/login").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().successHandler(successUserHandler)
+                .formLogin()
+                .successHandler(successUserHandler)
                 .permitAll()
                 .and()
                 .logout()
                 .permitAll();
-    }
-
-    // аутентификация inMemory
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("user")
-                        .roles("USER")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
     }
 }

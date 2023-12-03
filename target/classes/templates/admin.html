@@ -12,6 +12,8 @@
         <th>Name</th>
         <th>Last Name</th>
         <th>e-mail</th>
+        <th>password</th>
+        <th>role</th>
         <th></th>
         <th></th>
         <th></th>
@@ -23,18 +25,29 @@
         <td th:text="${user.getName()}" style="width: 150px; text-align: center"></td>
         <td th:text="${user.getLastName()}" style="width: 150px; text-align: center"></td>
         <td th:text="${user.getEmail()}" style="width: 100px; text-align: center"></td>
-        <td><a type="button" th:href="@{/delete(id=${user.getId()})}">Delete</a></td>
-        <td><a type="button" th:href="@{/edit(id=${user.getId()})}">Edit</a></td>
-        <td><a type="button" th:href="@{/show(id=${user.getId()})}">Show</a></td>
+        <td th:text="${user.getPassword()}" style="width: 100px; text-align: center"></td>
+        <td th:text="${user.getRoles()}" style="width: 100px; text-align: center"></td>
+        <td><a type="button" th:href="@{/admin/delete(id=${user.getId()})}">Delete</a></td>
+        <td><a type="button" th:href="@{/admin/edit(id=${user.getId()})}">Edit</a></td>
+        <td><a type="button" th:href="@{/admin/show(id=${user.getId()})}">Show</a></td>
     </tr>
     <tr>
         <td>
-            <form th:action="@{/new}">
+            <form th:action="@{/admin/new}">
                 <input type="submit" value="Create new user">
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/user}">
+                <input type="submit" value="Info">
             </form>
         </td>
     </tr>
     </tbody>
 </table>
+<br/>
+<form th:action="@{'/logout'}">
+    <input type="submit" value="Logout"/>
+</form>
 </body>
 </html>
