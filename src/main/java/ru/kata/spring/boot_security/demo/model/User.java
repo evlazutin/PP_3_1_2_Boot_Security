@@ -77,24 +77,25 @@ public class User implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
     @Override
     public String getUsername() {
         return email;
     }
 
     public Set<Role> getRoles() {
-
         return roles;
     }
 
     public void setRoles(Set<Role> roles) {
-
         this.roles = roles;
     }
 
@@ -123,4 +124,27 @@ public class User implements UserDetails {
         return true;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        if (!getId().equals(user.getId())) return false;
+        if (!getName().equals(user.getName())) return false;
+        if (!getLastName().equals(user.getLastName())) return false;
+        if (!getEmail().equals(user.getEmail())) return false;
+        if (!getPassword().equals(user.getPassword())) return false;
+        return getRoles().equals(user.getRoles());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getLastName().hashCode();
+        result = 31 * result + getEmail().hashCode();
+        result = 31 * result + getPassword().hashCode();
+        result = 31 * result + getRoles().hashCode();
+        return result;
+    }
 }

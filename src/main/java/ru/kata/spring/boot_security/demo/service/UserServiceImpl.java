@@ -13,17 +13,15 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-
     private final UserDAO userDAO;
 
     public UserServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
-
     @Override
     public User getUserByEmail(String email) {
-       return userDAO.getUserByEmail(email);
+        return userDAO.getUserByEmail(email);
     }
 
     @Override

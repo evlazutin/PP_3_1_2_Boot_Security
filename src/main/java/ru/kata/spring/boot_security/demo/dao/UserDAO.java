@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface UserDAO {
     User getUserByEmail(String email);
+
     List<User> getAllUsers();
 
     User getUser(Long id);
