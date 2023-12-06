@@ -24,11 +24,15 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     @Column(name = "last_name")
     private String lastName;
+
     @Column(unique = true)
     private String email;
+
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
